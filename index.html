@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>התפשטות בלתי מרוסנת: חקר אינטראקטיבי של גידול תולעי משי</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: A single-page, vertically scrolling application divided into four thematic sections: 1. The Growth Engine (interactive life cycle diagram), 2. The Exponential Curve (interactive chart with a slider to control generations and update metrics), 3. The Reality Check (cards for limiting factors), and 4. Human Intervention (conclusion). This narrative structure guides the user from biological potential to theoretical explosion and finally back to reality, maximizing engagement and understanding. -->
+    <!-- Visualization & Content Choices: Life Cycle -> Interactive HTML/CSS diagram for exploration. Exponential Growth -> Dynamic, logarithmic Chart.js line chart controlled by a slider for direct user interaction and impact. Limiting Factors -> Scannable info cards with icons. Theoretical Biomass -> Dynamic stat cards linked to the slider to create a "wow" factor with tangible comparisons. LLM Integration -> Two buttons for AI-generated facts and a dynamic "scenario calculator" for theoretical scenarios. The "calculator" allows generating multiple, distinct, short theoretical scenarios on demand, each displayed in its own card, providing an "infinite" exploration feel while managing API calls and UI. This approach translates dense text into an engaging, visual, and interactive story. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: #FDFBF6;
+            color: #5C544B;
+        }
+        .bg-primary { background-color: #FDFBF6; }
+        .bg-secondary { background-color: #F0EBE3; }
+        .bg-accent { background-color: #7D8F69; }
+        .text-accent { color: #7D8F69; }
+        .text-main { color: #5C544B; }
+        .border-accent { border-color: #7D8F69; }
+        .btn-accent {
+            background-color: #7D8F69;
+            color: #FDFBF6;
+            transition: background-color 0.3s ease;
+        }
+        .btn-accent:hover {
+            background-color: #6a7b59;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #A68B7C;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #D9A98B;
+            display: inline-block;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: #7D8F69;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .slider-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #D9A98B;
+            border-radius: 5px;
+        }
+        .stage-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stage-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .animate-pulse {
+            animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-primary text-main">
+
+    <header class="text-center py-12 md:py-20 bg-secondary">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl md:text-6xl font-bold text-accent mb-4">התפשטות בלתי מרוסנת</h1>
+            <p class="text-lg md:text-2xl max-w-3xl mx-auto">חקר אינטראקטיבי של פוטנציאל הגידול האקספוננציאלי של תולעת המשי</p>
+        </div>
+    </header>
+
+    <main>
+        <!-- Section 1: The Growth Engine -->
+        <section id="lifecycle" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="section-title mb-12">מנוע הצמיחה: מחזור החיים</h2>
+                <p class="max-w-3xl mx-auto text-lg mb-12">
+                    כדי להבין את פוטנציאל הגידול המדהים של תולעת המשי (*Bombyx mori*), עלינו להתחיל במחזור החיים המהיר והיעיל שלה. כל שלב מותאם באופן מושלם למטרה אחת: רבייה והתרבות מהירה. לחצו על כל שלב כדי ללמוד עוד.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <!-- Egg -->
+                    <div class="stage-card bg-secondary p-6 rounded-lg shadow-md text-center">
+                        <div class="text-5xl mb-4">🥚</div>
+                        <h3 class="text-2xl font-bold text-accent mb-2">ביצה</h3>
+                        <p class="font-semibold">9-12 ימים</p>
+                        <p>נקבה מטילה כ-500 ביצים. רק הביצים הפוריות והכהות יבקעו.</p>
+                    </div>
+                    <!-- Larva -->
+                    <div class="stage-card bg-secondary p-6 rounded-lg shadow-md text-center">
+                        <div class="text-5xl mb-4">🐛</div>
+                        <h3 class="text-2xl font-bold text-accent mb-2">זחל</h3>
+                        <p class="font-semibold">20-28 ימים</p>
+                        <p>שלב האכילה החמדנית. הזחל מגדיל את משקלו פי 10,000, ניזון מעלי תות בלבד.</p>
+                    </div>
+                    <!-- Pupa -->
+                    <div class="stage-card bg-secondary p-6 rounded-lg shadow-md text-center">
+                        <div class="text-5xl mb-4">繭</div>
+                        <h3 class="text-2xl font-bold text-accent mb-2">גולם</h3>
+                        <p class="font-semibold">10-21 ימים</p>
+                        <p>בתוך פקעת המשי, הזחל הופך לעש בוגר. הפקעת עשויה מחוט משי יחיד באורך מאות מטרים.</p>
+                    </div>
+                    <!-- Moth -->
+                    <div class="stage-card bg-secondary p-6 rounded-lg shadow-md text-center">
+                        <div class="text-5xl mb-4">🦋</div>
+                        <h3 class="text-2xl font-bold text-accent mb-2">עש בוגר</h3>
+                        <p class="font-semibold">3-10 ימים</p>
+                        <p>העש אינו אוכל או עף. כל מטרתו היא להזדווג ולהטיל ביצים כדי להתחיל את המחזור מחדש.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: The Exponential Curve -->
+        <section id="exponential" class="py-16 md:py-24 bg-secondary">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="section-title mb-12">העקומה המעריכית: מסע אל האינסוף</h2>
+                 <p class="max-w-3xl mx-auto text-lg mb-8">
+                    כעת, בואו נחקור מה קורה כאשר אנו משחררים את הפוטנציאל הזה בסביבה תיאורטית ללא מגבלות. החל מנקבה אחת, השתמשו במחוון כדי לראות כיצד האוכלוסייה מתפוצצת מדור לדור.
+                </p>
+                 <p class="max-w-3xl mx-auto text-base mb-12">
+                    הנוסחה מאחורי הקסם: $N(t) = N_0 \times R^{(t/G)}$, כאשר $N_0=1$, $R=250$ (נקבות חדשות לכל נקבה), וזמן דור ($G$) הוא 42 יום.
+                </p>
+
+                <div class="w-full max-w-4xl mx-auto mb-8">
+                    <label for="generationSlider" class="block text-xl font-semibold mb-2">בחרו מספר דורות: <span id="generationValue" class="text-accent font-bold">1</span></label>
+                    <input id="generationSlider" type="range" min="1" max="8" value="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-track">
+                </div>
+
+                <div class="chart-container mb-12">
+                    <canvas id="growthChart"></canvas>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-primary p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-accent mb-2">סה"כ תולעי משי</h3>
+                        <p id="totalPopulation" class="text-3xl md:text-4xl font-bold">500</p>
+                    </div>
+                    <div class="bg-primary p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-accent mb-2">ביומסה כוללת (בטונות)</h3>
+                        <p id="totalBiomass" class="text-3xl md:text-4xl font-bold">0.0005</p>
+                    </div>
+                    <div class="bg-primary p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-accent mb-2">השוואה מדהימה</h3>
+                        <p id="comparisonText" class="text-lg h-16">זניח</p>
+                    </div>
+                </div>
+
+                <div class="bg-primary p-6 rounded-lg shadow-lg col-span-full mt-8 max-w-5xl mx-auto">
+                    <h3 class="text-xl font-bold text-accent mb-4">✨ חקר תיאורטי עם בינה מלאכותית ✨</h3>
+                    <div class="flex flex-col md:flex-row gap-4 mb-4">
+                        <button id="funFactBtn" class="btn-accent px-6 py-3 rounded-lg shadow-md flex-grow">
+                            ✨ עובדה מהנה על תולעי משי ✨
+                        </button>
+                        <button id="generateOneScenarioBtn" class="btn-accent px-6 py-3 rounded-lg shadow-md flex-grow">
+                            ✨ צור תרחיש תיאורטי נוסף ✨
+                        </button>
+                        <button id="clearScenariosBtn" class="btn-accent px-6 py-3 rounded-lg shadow-md flex-grow">
+                            🗑️ נקה תרחישים
+                        </button>
+                    </div>
+                    <div id="scenarioContainer" class="flex flex-col gap-4">
+                        <div class="bg-secondary p-4 rounded-lg text-main text-lg min-h-[80px] flex items-center justify-center text-center">
+                            לחצו על כפתור כדי לגלות תובנות חדשות!
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 3: The Reality Check -->
+        <section id="reality" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="section-title mb-12">בדיקת מציאות: איזונים ובלמים</h2>
+                <p class="max-w-3xl mx-auto text-lg mb-12">
+                    המספרים התיאורטיים מדהימים, אך מדוע העולם אינו מכוסה בתולעי משי? בטבע, וגם בגידול מסחרי, גורמים רבים מגבילים את הגידול ומונעים התפוצצות אוכלוסין.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+                    <div class="bg-secondary p-6 rounded-lg shadow-md">
+                        <div class="text-5xl mb-4">🌡️</div>
+                        <h3 class="text-xl font-bold text-accent mb-2">סביבה</h3>
+                        <p>תולעי משי רגישות מאוד לשינויי טמפרטורה ולחות. תנאים לא אידיאליים פוגעים בגידול, בתיאבון ובהישרדות.</p>
+                    </div>
+                    <div class="bg-secondary p-6 rounded-lg shadow-md">
+                        <div class="text-5xl mb-4">🌿</div>
+                        <h3 class="text-xl font-bold text-accent mb-2">מזון ומרחב</h3>
+                        <p>התלות המוחלטת בעלי תות והצורך במרחב מספק מהווים צוואר בקבוק טבעי. צפיפות יתר מובילה לתחרות וללחץ.</p>
+                    </div>
+                    <div class="bg-secondary p-6 rounded-lg shadow-md">
+                        <div class="text-5xl mb-4">🦠</div>
+                        <h3 class="text-xl font-bold text-accent mb-2">מחלות</h3>
+                        <p>מחלות כמו פברין, פלאצ'רי וגראסרי יכולות להתפשט במהירות באוכלוסיות צפופות ולהשמיד יבולים שלמים.</p>
+                    </div>
+                    <div class="bg-secondary p-6 rounded-lg shadow-md">
+                        <div class="text-5xl mb-4">🐜</div>
+                        <h3 class="text-xl font-bold text-accent mb-2">טורפים ומזיקים</h3>
+                        <p>בטבע, נמלים, ציפורים, וחרקים טפילים כמו זבוב העוזי היו טורפים בקלות את הזחלים חסרי ההגנה.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Human Intervention -->
+        <section id="conclusion" class="py-16 md:py-24 bg-secondary">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="section-title mb-12">סיכום: תושייה אנושית</h2>
+                <p class="max-w-3xl mx-auto text-lg mb-8">
+                    הסיפור של תולעת המשי הוא דוגמה מרתקת ליחסי הגומלין בין פוטנציאל ביולוגי, עקרונות מתמטיים ומציאות אקולוגית. גידול משי מסחרי (Sericulture) הוא למעשה אמנות ההתגברות על המגבלות הטבעיות.
+                </p>
+                <p class="max-w-3xl mx-auto text-lg">
+                    על ידי שליטה קפדנית בטמפרטורה, לחות, היגיינה, ואספקת מזון אינסופית לכאורה, בני האדם יוצרים סביבה מלאכותית המאפשרת לתולעת המשי לממש חלק קטן מהפוטנציאל האקספוננציאלי העצום שלה - בדיוק מספיק כדי לייצר את סיב המשי היקר מזה אלפי שנים.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center py-8 bg-gray-800 text-white">
+        <p>נוצר כחלק מפרויקט הדגמה אינטראקטיבי.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const slider = document.getElementById('generationSlider');
+            const generationValue = document.getElementById('generationValue');
+            const totalPopulationEl = document.getElementById('totalPopulation');
+            const totalBiomassEl = document.getElementById('totalBiomass');
+            const comparisonTextEl = document.getElementById('comparisonText');
+
+            const funFactBtn = document.getElementById('funFactBtn');
+            const generateOneScenarioBtn = document.getElementById('generateOneScenarioBtn');
+            const clearScenariosBtn = document.getElementById('clearScenariosBtn');
+            const scenarioContainer = document.getElementById('scenarioContainer');
+
+            const R = 250; 
+            const generationsData = Array.from({ length: 8 }, (_, i) => i + 1);
+
+            function calculatePopulation(generations) {
+                let femalePopulation = 1;
+                for (let i = 0; i < generations; i++) {
+                    femalePopulation *= R;
+                }
+                return {
+                    females: femalePopulation,
+                    total: femalePopulation * 2 
+                };
+            }
+            
+            function formatNumber(num) {
+                if (num < 1e3) return num.toString();
+                if (num < 1e6) return (num / 1e3).toFixed(2) + ' אלף';
+                if (num < 1e9) return (num / 1e6).toFixed(2) + ' מיליון';
+                if (num < 1e12) return (num / 1e9).toFixed(2) + ' מיליארד';
+                if (num < 1e15) return (num / 1e12).toFixed(2) + ' טריליון';
+                if (num < 1e18) return (num / 1e15).toFixed(2) + ' קוודריליון';
+                return num.toExponential(2);
+            }
+
+            const chartData = {
+                labels: generationsData.map(g => `דור ${g}`),
+                datasets: [{
+                    label: 'סה"כ תולעי משי (סקאלה לוגריתמית)',
+                    data: [],
+                    borderColor: '#7D8F69',
+                    backgroundColor: 'rgba(125, 143, 105, 0.2)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            };
+
+            const chartConfig = {
+                type: 'line',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            type: 'logarithmic',
+                            title: {
+                                display: true,
+                                text: 'מספר תולעים (לוגריתמי)'
+                            }
+                        },
+                        x: {
+                             title: {
+                                display: true,
+                                text: 'דורות'
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += formatNumber(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            const growthChart = new Chart(ctx, chartConfig);
+
+            function updateVisuals(generations) {
+                generationValue.textContent = generations;
+
+                const population = calculatePopulation(generations);
+                const totalPopulation = population.total;
+                const biomassKg = totalPopulation * 0.001;
+                const biomassTonnes = biomassKg / 1000;
+
+                totalPopulationEl.textContent = formatNumber(totalPopulation);
+                totalBiomassEl.textContent = formatNumber(biomassTonnes);
+                
+                let comparison = "זניח";
+                if (generations >= 4) comparison = "משקל של מספר בניינים";
+                if (generations >= 5) comparison = "משקל של ספינת מטען גדולה";
+                if (generations >= 6) comparison = "עולה על משקל כל בני האדם על כדור הארץ!";
+                if (generations >= 7) comparison = "עולה על הביומסה של כל בעלי החיים היבשתיים!";
+                if (generations >= 8) comparison = "עולה על הביומסה של כל הצמחים על כדור הארץ!!";
+                comparisonTextEl.textContent = comparison;
+
+                const newData = generationsData.slice(0, generations).map(g => calculatePopulation(g).total);
+                growthChart.data.datasets[0].data = newData;
+                growthChart.data.labels = generationsData.slice(0, generations).map(g => `דור ${g}`);
+                growthChart.update();
+            }
+
+            slider.addEventListener('input', (event) => {
+                updateVisuals(parseInt(event.target.value));
+            });
+
+            updateVisuals(1);
+
+            async function callGeminiAPI(prompt, targetElement) {
+                const loadingText = 'טוען... ✨';
+                targetElement.textContent = loadingText;
+                targetElement.classList.add('animate-pulse');
+
+                const payload = {
+                    contents: [{ parts: [{ text: prompt }] }],
+                };
+                // מפתח ה-API שלך הוצב כאן ישירות בקוד.
+                // חשוב לזכור שזו לא השיטה המאובטחת ביותר בסביבת ייצור.
+                const apiKey = "AIzaSyDX5mF0GJ4rLJQmOP00ogzVpSe40UY8KFg"; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        return result.candidates[0].content.parts[0].text;
+                    } else {
+                        console.error('Unexpected API response structure or no content:', result);
+                        return 'שגיאה: לא ניתן לקבל תגובה מהבינה המלאכותית. נסה שוב.';
+                    }
+                } catch (error) {
+                    console.error('Error calling Gemini API:', error);
+                    return 'שגיאה: תקלה בתקשורת עם השרת. וודא חיבור אינטרנט תקין.';
+                } finally {
+                    targetElement.classList.remove('animate-pulse');
+                }
+            }
+
+            funFactBtn.addEventListener('click', async () => {
+                // Clear previous scenarios if any are displayed in the main area
+                scenarioContainer.innerHTML = `
+                    <div class="bg-secondary p-4 rounded-lg text-main text-lg min-h-[80px] flex items-center justify-center text-center">
+                        טוען עובדה מהנה...
+                    </div>
+                `;
+                const tempFactEl = scenarioContainer.querySelector('div');
+
+                const prompt = "צור עובדה מהנה, מפתיעה ופחות ידועה על תולעי משי, גידול משי, או עקרונות של גידול אקספוננציאלי בביולוגיה. העובדה צריכה להיות קצרה ותמציתית, בשפה העברית.";
+                const responseText = await callGeminiAPI(prompt, tempFactEl);
+                tempFactEl.textContent = responseText;
+            });
+
+            generateOneScenarioBtn.addEventListener('click', async () => {
+                // Remove the initial placeholder text if it's there
+                if (scenarioContainer.children.length === 1 && scenarioContainer.querySelector('.min-h-[80px]').textContent.includes('לחצו על כפתור')) {
+                    scenarioContainer.innerHTML = '';
+                }
+
+                const currentGenerations = parseInt(slider.value);
+                const populationData = calculatePopulation(currentGenerations);
+                const totalPop = formatNumber(populationData.total);
+                const biomassKg = populationData.total * 0.001;
+                const biomassTonnes = formatNumber(biomassKg / 1000);
+
+                const newScenarioCard = document.createElement('div');
+                newScenarioCard.className = 'bg-secondary p-4 rounded-lg text-main text-lg min-h-[80px] flex items-center justify-center text-center';
+                scenarioContainer.prepend(newScenarioCard); // Add to top
+
+                const prompt = `בהינתן שאוכלוסיית תולעי המשי הגיעה ל-${totalPop} פרטים (בדור ${currentGenerations}), תאר תרחיש תיאורטי, דמיוני ומופרך של איך העולם היה נראה אם גידול אקספוננציאלי זה היה ממשיך ללא הפרעה, תוך התייחסות למשקל הביומסה העצום של ${biomassTonnes} טונות. התמקד בהשלכות הסביבתיות או הפיזיות של כמות כזו. התשובה צריכה להיות קצרה מאוד (עד 40 מילים), הומוריסטית או מדע בדיוני קל, וייחודית לתרחיש זה. נסה לייצר תרחיש שונה מכל תרחיש קודם שהוצג.`;
+                const responseText = await callGeminiAPI(prompt, newScenarioCard);
+                newScenarioCard.textContent = responseText;
+            });
+
+            clearScenariosBtn.addEventListener('click', () => {
+                scenarioContainer.innerHTML = `
+                    <div class="bg-secondary p-4 rounded-lg text-main text-lg min-h-[80px] flex items-center justify-center text-center">
+                        לחצו על כפתור כדי לגלות תובנות חדשות!
+                    </div>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>
